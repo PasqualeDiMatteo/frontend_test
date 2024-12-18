@@ -1,11 +1,15 @@
 <script>
+import AppHeader from "./components/AppHeader.vue";
 export default {
-
+  components: { AppHeader }
 };
 </script>
 
 <template>
-  <h1>Hello</h1>
+  <AppHeader />
+  <main class="container my-3">
+    <h1>Hello</h1>
+  </main>
 </template>
 
 <style></style>
