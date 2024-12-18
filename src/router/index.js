@@ -1,10 +1,14 @@
 import {createRouter,createWebHistory} from 'vue-router';
 
-import HomePage from "./pages/HomePage.vue";
+import HomePage from '../pages/HomePage.vue';
+import DetailPage from "../pages/DetailPage.vue";
 
-const routes = createRouter({
+const router = createRouter({
     history:createWebHistory(),
     routes: [
-        { path: '/', name:"home", component: HomePage }
+        { path: '/', name:"home", component: HomePage },
+        { path: '/users/:id', name:"detail", component: DetailPage }
     ]
 })
+
+export{router}

@@ -34,6 +34,8 @@ export default {
                 <th scope="col">Name</th>
                 <th scope="col">Last</th>
                 <th scope="col">email</th>
+                <th scope="col"></th>
+
             </tr>
         </thead>
         <tbody>
@@ -42,6 +44,10 @@ export default {
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
                 <td>{{ user.email }}</td>
+                <td>
+                    <RouterLink class="btn btn-primary" :to="{ name: 'detail', params: { id: user.id } }">Vedi
+                    </RouterLink>
+                </td>
             </tr>
         </tbody>
     </table>
