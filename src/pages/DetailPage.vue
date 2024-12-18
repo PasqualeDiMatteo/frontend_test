@@ -13,7 +13,7 @@ export default {
                     this.user = response.data;
                 })
                 .catch(error => {
-                    console.error(error);
+                    this.$router.push({ name: "not-found" })
                 });
         },
     },
@@ -25,7 +25,7 @@ export default {
 
 <template>
 
-    <div class="card">
+    <div v-if="user" class="card">
         <h4 class="card-header">
             {{ user.name + " " + user.surname }}
         </h4>
