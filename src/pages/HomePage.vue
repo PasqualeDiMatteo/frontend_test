@@ -7,6 +7,9 @@ export default {
     components: { AppLoader },
     data: () => ({
         isOpen: false,
+        alertToggle: false,
+        alertMessage: "",
+        alertType: "",
         idClicked: null,
         userClicked: null,
         isLoading: false,
@@ -24,7 +27,9 @@ export default {
                     this.users.links = response.data.links
                 })
                 .catch(error => {
-                    console.error(error);
+                    this.alertToggle = true;
+                    this.alertType = "danger";
+                    this.alertMessage = "Failed to fetch users";
                 })
                 .then(() => {
                     this.isLoading = false;
@@ -46,13 +51,17 @@ export default {
                 .then(() => {
                     this.users.data = this.users.data.filter(user => user.id != this.idClicked);
                     this.fetchUsers();
+                    this.alertToggle = true;
+                    this.alertType = "success";
+                    this.alertMessage = "User deleted successfully";
                 })
                 .catch(error => {
-                    console.error(error);
-                })
-                .then(() => {
                     this.isLoading = false;
-                });
+                    console.error(error);
+                    this.alertToggle = true;
+                    this.alertType = "danger";
+                    this.alertMessage = "Failed to delete user";
+                })
         }
     },
     created() {
@@ -64,6 +73,10 @@ export default {
 <template>
     <AppLoader v-if="isLoading" />
     <div v-else>
+        <div v-if="alertMessage" class="alert  alert-dismissible fade show" :class="'alert-' + alertType" role="alert">
+            <strong>{{ alertMessage }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <table class="table">
             <thead>
                 <tr>
