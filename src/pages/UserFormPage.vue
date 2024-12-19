@@ -28,7 +28,7 @@ export default {
             if (this.hasErrors) return;
             this.isLoading = true;
             let axiosCall = null
-            if (!this.user) {
+            if (!this.$route.params.id) {
                 axiosCall = axios.post(url, this.form)
 
             } else {
@@ -37,7 +37,7 @@ export default {
             axiosCall.then(() => {
                 this.form = { name: '', surname: '', email: '' };
                 this.alertOpen = true;
-                if (!this.user) {
+                if (!this.$route.params.id) {
                     this.alertMessage = "User created successfully"
                     this.alertType = "success";
                 } else {
@@ -102,10 +102,10 @@ export default {
 <template>
     <AppLoader v-if="isLoading" />
     <div v-else>
-        <h2 v-if=!user>New User</h2>
+        <h2 v-if=!$route.params.id>New User</h2>
         <h2 v-else>Update User</h2>
         <div class="d-flex justify-content-end my-2">
-            <button class="btn  btn-secondary me-2" @click="$router.push({ name: 'home' })">Torna indietro</button>
+            <button class="btn  btn-secondary me-2" @click="$router.push({ name: 'home' })">Go Back</button>
         </div>
         <AppAlert v-if="alertOpen" :alertType="alertType" :alertMessage="alertMessage"
             @closeAlert="alertOpen = !alertOpen" />

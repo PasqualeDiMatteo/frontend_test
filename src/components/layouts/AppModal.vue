@@ -19,7 +19,7 @@ export default {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" @click="$emit('closeModal')">Close</button>
-                    <button type="button" class="btn btn-danger" @click="$emit('delete')">Elimina</button>
+                    <button type="button" class="btn btn-danger" @click="$emit('delete')">Delete</button>
                 </div>
             </div>
         </div>

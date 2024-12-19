@@ -37,7 +37,7 @@ export default {
         </h4>
         <div class="card-body">
             <p class="card-title">{{ user.email }}</p>
-            <RouterLink class="btn btn-secondary" :to="{ name: 'home' }">Indietro
+            <RouterLink class="btn btn-secondary" :to="{ name: 'home' }">Go Back
             </RouterLink>
         </div>
     </div>
