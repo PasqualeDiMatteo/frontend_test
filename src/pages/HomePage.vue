@@ -84,44 +84,49 @@ export default {
         <div class="d-flex justify-content-end my-2">
             <RouterLink class="btn btn-primary" :to="{ name: 'create' }">New User</RouterLink>
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Surname</th>
-                    <th scope="col">Email</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users.data" :key="user.id">
-                    <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.surname }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>
-                        <RouterLink class="btn btn-secondary" :to="{ name: 'detail', params: { id: user.id } }">View
-                        </RouterLink>
-                        <RouterLink class="btn btn-warning ms-2" :to="{ name: 'update', params: { id: user.id } }">
-                            Update
-                        </RouterLink>
-                        <button class="btn btn-danger ms-2" @click="modalToggle(user.id)">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item" v-for="link in users.links" :key="link.label">
-                    <span v-if="!link.url" class="page-link disabled" v-html="link.label"></span>
-                    <button v-else class="page-link" :class="{ active: link.active }" @click="fetchUsers(link.url)"
-                        v-html="link.label"></button>
-                </li>
-            </ul>
-        </nav>
-        <AppModal v-if="modalOpen" :modalMessage="modalMessage" @closeModal="modalOpen = !modalOpen"
-            @delete="deleteUser()" />
+        <div v-if="users.data && users.data.length > 0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users.data" :key="user.id">
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.surname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <RouterLink class="btn btn-secondary" :to="{ name: 'detail', params: { id: user.id } }">View
+                            </RouterLink>
+                            <RouterLink class="btn btn-warning ms-2" :to="{ name: 'update', params: { id: user.id } }">
+                                Update
+                            </RouterLink>
+                            <button class="btn btn-danger ms-2" @click="modalToggle(user.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" v-for="link in users.links" :key="link.label">
+                        <span v-if="!link.url" class="page-link disabled" v-html="link.label"></span>
+                        <button v-else class="page-link" :class="{ active: link.active }" @click="fetchUsers(link.url)"
+                            v-html="link.label"></button>
+                    </li>
+                </ul>
+            </nav>
+            <AppModal v-if="modalOpen" :modalMessage="modalMessage" @closeModal="modalOpen = !modalOpen"
+                @delete="deleteUser()" />
+        </div>
+        <div v-else class="d-flex justify-content-center">
+            <h2>No users</h2>
+        </div>
     </div>
 </template>
 

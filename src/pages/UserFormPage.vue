@@ -35,9 +35,9 @@ export default {
                 axiosCall = axios.put(url + this.user.id, this.form)
             }
             axiosCall.then(() => {
-                this.form = { name: '', surname: '', email: '' };
                 this.alertOpen = true;
                 if (!this.$route.params.id) {
+                    this.form = { name: '', surname: '', email: '' };
                     this.alertMessage = "User created successfully"
                     this.alertType = "success";
                 } else {
