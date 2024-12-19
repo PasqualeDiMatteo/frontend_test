@@ -8,6 +8,7 @@ import UserFormPage from '../pages/UserFormPage.vue';
 
 const router = createRouter({
     history:createWebHistory(),
+    linkActiveClass: 'active',
     routes: [
         { path: '/', name:"home", component: HomePage },
         { path: '/users/create', name:"create", component: UserFormPage },
