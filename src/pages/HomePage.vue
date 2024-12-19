@@ -81,6 +81,9 @@ export default {
     <div v-else>
         <AppAlert v-if="alertOpen" :alertMessage="alertMessage" :alertType="alertType"
             @closeAlert="alertOpen = !alertOpen" />
+        <div class="d-flex justify-content-end my-2">
+            <RouterLink class="btn btn-primary" :to="{ name: 'create' }">New User</RouterLink>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -98,9 +101,12 @@ export default {
                     <td>{{ user.surname }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <RouterLink class="btn btn-primary" :to="{ name: 'detail', params: { id: user.id } }">Vedi
+                        <RouterLink class="btn btn-secondary" :to="{ name: 'detail', params: { id: user.id } }">View
                         </RouterLink>
-                        <button class="btn btn-danger ms-2" @click="modalToggle(user.id)">Elimina</button>
+                        <RouterLink class="btn btn-warning ms-2" :to="{ name: 'update', params: { id: user.id } }">
+                            Update
+                        </RouterLink>
+                        <button class="btn btn-danger ms-2" @click="modalToggle(user.id)">Delete</button>
                     </td>
                 </tr>
             </tbody>
