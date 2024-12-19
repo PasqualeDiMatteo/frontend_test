@@ -1,13 +1,17 @@
 <script>
 import axios from "axios";
 import AppLoader from "../components/layouts/AppLoader.vue";
+import AppAlert from "../components/layouts/AppAlert.vue";
+import AppModal from "../components/layouts/AppModal.vue";
+
 
 export default {
     name: "Home Page",
-    components: { AppLoader },
+    components: { AppLoader, AppAlert, AppModal },
     data: () => ({
-        isOpen: false,
-        alertToggle: false,
+        modalOpen: false,
+        modalMessage: "",
+        alertOpen: false,
         alertMessage: "",
         alertType: "",
         idClicked: null,
@@ -27,7 +31,7 @@ export default {
                     this.users.links = response.data.links
                 })
                 .catch(error => {
-                    this.alertToggle = true;
+                    this.alertOpen = true;
                     this.alertType = "danger";
                     this.alertMessage = "Failed to fetch users";
                 })
@@ -36,29 +40,31 @@ export default {
                 });
         },
         modalToggle(id) {
-            this.isOpen = !this.isOpen;
             this.idClicked = id;
             this.users.data.filter((user) => {
                 if (user.id === id) {
                     this.userClicked = user;
+                    this.modalMessage = "Are you sure you want to delete " + user.name + "?"
                 };
             })
+            this.modalOpen = !this.modalOpen;
         },
         deleteUser() {
             this.isLoading = true;
-            this.isOpen = false;
+            this.modalOpen = false;
             axios.delete(`http://127.0.0.1:80/api/users/${this.idClicked}`)
                 .then(() => {
                     this.users.data = this.users.data.filter(user => user.id != this.idClicked);
                     this.fetchUsers();
-                    this.alertToggle = true;
+                    this.alertOpen = true;
                     this.alertType = "success";
                     this.alertMessage = "User deleted successfully";
+
                 })
                 .catch(error => {
                     this.isLoading = false;
                     console.error(error);
-                    this.alertToggle = true;
+                    this.alertOpen = true;
                     this.alertType = "danger";
                     this.alertMessage = "Failed to delete user";
                 })
@@ -73,10 +79,8 @@ export default {
 <template>
     <AppLoader v-if="isLoading" />
     <div v-else>
-        <div v-if="alertMessage" class="alert  alert-dismissible fade show" :class="'alert-' + alertType" role="alert">
-            <strong>{{ alertMessage }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <AppAlert v-if="alertOpen" :alertMessage="alertMessage" :alertType="alertType"
+            @closeAlert="alertOpen = !alertOpen" />
         <table class="table">
             <thead>
                 <tr>
@@ -85,7 +89,6 @@ export default {
                     <th scope="col">Last</th>
                     <th scope="col">email</th>
                     <th scope="col"></th>
-
                 </tr>
             </thead>
             <tbody>
@@ -111,29 +114,9 @@ export default {
                 </li>
             </ul>
         </nav>
-        <div v-if="isOpen" class="modal fade show">
-            <div class=" modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Sicuro di voler cancellare {{
-                            userClicked.name }}</h1>
-                        <button type="button" class="btn-close" @click="isOpen = !isOpen"></button>
-                    </div>
-                    <div class="modal-body">
-                        L'azione non è revertibile
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="isOpen = !isOpen">Close</button>
-                        <button type="button" class="btn btn-danger" @click="deleteUser()">Elimina</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <AppModal v-if="modalOpen" :modalMessage="modalMessage" @closeModal="modalOpen = !modalOpen"
+            @delete="deleteUser()" />
     </div>
 </template>
 
-<style scoped>
-.show {
-    display: block;
-}
-</style>
+<style></style>
