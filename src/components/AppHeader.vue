@@ -6,7 +6,7 @@ export default {
 
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
+        <div class="d-flex">
             <RouterLink class="navbar-brand" :to="{ name: 'home' }">Front-Test
             </RouterLink>
             <ul class="navbar-nav">
